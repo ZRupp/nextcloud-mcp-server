@@ -700,3 +700,79 @@ def create_mock_news_status_response(
     }
 
     return create_mock_response(status_code=200, json_data=data)
+
+
+# ============================================================================
+# WeekPlanner Mock Response Helpers
+# ============================================================================
+
+
+def create_mock_weekplanner_week_response(
+    days: dict | None = None,
+    updated_at: int = 1713100000,
+) -> httpx.Response:
+    """Create a mock response for a WeekPlanner week.
+
+    Args:
+        days: Mapping of day names to task lists (defaults to empty week)
+        updated_at: Last update unix timestamp
+
+    Returns:
+        Mock httpx.Response with week data
+    """
+    if days is None:
+        days = {
+            "monday": [],
+            "tuesday": [],
+            "wednesday": [],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": [],
+        }
+    data = {"days": days, "updatedAt": updated_at}
+    return create_mock_response(status_code=200, json_data=data)
+
+
+def create_mock_weekplanner_put_response(
+    updated_at: int = 1713100001,
+) -> httpx.Response:
+    """Create a mock response for a WeekPlanner PUT (save) operation.
+
+    Args:
+        updated_at: New update unix timestamp
+
+    Returns:
+        Mock httpx.Response with status
+    """
+    data = {"status": "ok", "updatedAt": updated_at}
+    return create_mock_response(status_code=200, json_data=data)
+
+
+def create_mock_weekplanner_custom_columns_response(
+    columns: list | None = None,
+    recurring_tasks: list | None = None,
+    updated_at: int = 1713100000,
+) -> httpx.Response:
+    """Create a mock response for WeekPlanner custom columns.
+
+    Args:
+        columns: List of custom column dicts
+        recurring_tasks: List of recurring task definition dicts
+        updated_at: Last update unix timestamp
+
+    Returns:
+        Mock httpx.Response with custom columns data
+    """
+    if columns is None:
+        columns = [
+            {"id": "custom_1", "title": "Someday", "tasks": []},
+            {"id": "custom_2", "title": "", "tasks": []},
+            {"id": "custom_3", "title": "", "tasks": []},
+        ]
+    data = {
+        "columns": columns,
+        "recurringTasks": recurring_tasks or [],
+        "updatedAt": updated_at,
+    }
+    return create_mock_response(status_code=200, json_data=data)

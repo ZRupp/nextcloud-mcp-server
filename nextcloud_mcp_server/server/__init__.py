@@ -13,6 +13,7 @@ from .semantic import configure_semantic_tools
 from .sharing import configure_sharing_tools
 from .tables import configure_tables_tools
 from .webdav import configure_webdav_tools
+from .weekplanner import configure_weekplanner_tools
 
 # Canonical mapping of app name → tool registration function.
 # Used by app.py (HTTP), stdio.py (stdio), and cli.py (--enable-app choices).
@@ -29,6 +30,7 @@ AVAILABLE_APPS: dict[str, Callable[[FastMCP], None]] = {
     "cookbook": configure_cookbook_tools,
     "deck": configure_deck_tools,
     "news": configure_news_tools,
+    "weekplanner": configure_weekplanner_tools,
 }
 
 __all__ = [
@@ -44,4 +46,5 @@ __all__ = [
     "configure_sharing_tools",
     "configure_tables_tools",
     "configure_webdav_tools",
+    "configure_weekplanner_tools",
 ]
