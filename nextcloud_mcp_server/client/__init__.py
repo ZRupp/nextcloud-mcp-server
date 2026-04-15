@@ -27,6 +27,9 @@ from .users import UsersClient
 from .webdav import WebDAVClient
 from .webhooks import WebhooksClient
 from .weekplanner import WeekPlannerClient
+from .agora import AgoraClient
+from .intravox import IntravoxClient
+from .analytics import AnalyticsClient
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +94,9 @@ class NextcloudClient:
         self.sharing = SharingClient(self._client, username)
         self.webhooks = WebhooksClient(self._client, username)
         self.weekplanner = WeekPlannerClient(self._client, username)
+        self.agora = AgoraClient(self._client, username)
+        self.intravox = IntravoxClient(self._client, username)
+        self.analytics = AnalyticsClient(self._client, username)
 
         # Initialize controllers
         self._notes_search = NotesSearchController()

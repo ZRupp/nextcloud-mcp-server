@@ -776,3 +776,150 @@ def create_mock_weekplanner_custom_columns_response(
         "updatedAt": updated_at,
     }
     return create_mock_response(status_code=200, json_data=data)
+
+
+# ============================================================================
+# Agora Mock Response Helpers
+# ============================================================================
+
+
+def create_mock_agora_inquiry_response(
+    inquiry_id: int = 1,
+    title: str = "Test Inquiry",
+    description: str = "Test description",
+    inquiry_type: str = "proposal",
+    access: str = "open",
+    owner: str = "testuser",
+    **kwargs,
+) -> httpx.Response:
+    """Create a mock response for an Agora inquiry."""
+    data = {
+        "id": inquiry_id,
+        "title": title,
+        "description": description,
+        "type": inquiry_type,
+        "access": access,
+        "owner": owner,
+        "created": 1713100000,
+        "expire": 0,
+        "allowComment": True,
+        "allowSuggestions": True,
+        "showResults": "always",
+        **kwargs,
+    }
+    return create_mock_response(status_code=200, json_data=data)
+
+
+def create_mock_agora_inquiries_list_response(
+    inquiries: list | None = None,
+) -> httpx.Response:
+    """Create a mock response for listing Agora inquiries."""
+    if inquiries is None:
+        inquiries = [
+            {
+                "id": 1,
+                "title": "Proposal A",
+                "type": "proposal",
+                "access": "open",
+                "owner": "testuser",
+            },
+            {
+                "id": 2,
+                "title": "Debate B",
+                "type": "debate",
+                "access": "open",
+                "owner": "testuser",
+            },
+        ]
+    return create_mock_response(status_code=200, json_data=inquiries)
+
+
+def create_mock_agora_comment_response(
+    comment_id: int = 1,
+    inquiry_id: int = 1,
+    user_id: str = "testuser",
+    message: str = "Test comment",
+    **kwargs,
+) -> httpx.Response:
+    """Create a mock response for an Agora comment."""
+    data = {
+        "id": comment_id,
+        "inquiryId": inquiry_id,
+        "userId": user_id,
+        "message": message,
+        "timestamp": 1713100000,
+        **kwargs,
+    }
+    return create_mock_response(status_code=200, json_data=data)
+
+
+def create_mock_agora_comments_list_response(
+    comments: list | None = None,
+) -> httpx.Response:
+    """Create a mock response for listing Agora comments."""
+    if comments is None:
+        comments = [
+            {"id": 1, "inquiryId": 1, "userId": "user1", "message": "Comment 1"},
+            {"id": 2, "inquiryId": 1, "userId": "user2", "message": "Comment 2"},
+        ]
+    return create_mock_response(status_code=200, json_data=comments)
+
+
+# ============================================================================
+# IntraVox Mock Response Helpers
+# ============================================================================
+
+
+def create_mock_intravox_ocs_response(
+    data: dict | list | None = None,
+    status_code: int = 200,
+    ocs_statuscode: int = 200,
+) -> httpx.Response:
+    """Create a mock OCS-wrapped response for IntraVox.
+
+    Args:
+        data: The OCS data payload
+        status_code: HTTP status code
+        ocs_statuscode: OCS meta statuscode
+
+    Returns:
+        Mock httpx.Response with OCS wrapper
+    """
+    ocs_data = {
+        "ocs": {
+            "meta": {"status": "ok", "statuscode": ocs_statuscode, "message": "OK"},
+            "data": data or {},
+        }
+    }
+    return create_mock_response(status_code=status_code, json_data=ocs_data)
+
+
+def create_mock_intravox_page_response(
+    unique_id: str = "page-uuid-1",
+    title: str = "Test Page",
+    language: str = "en",
+    status: str = "published",
+    **kwargs,
+) -> httpx.Response:
+    """Create a mock OCS response for an IntraVox page."""
+    data = {
+        "uniqueId": unique_id,
+        "title": title,
+        "language": language,
+        "status": status,
+        "layout": {"rows": []},
+        **kwargs,
+    }
+    return create_mock_intravox_ocs_response(data=data)
+
+
+def create_mock_intravox_pages_list_response(
+    pages: list | None = None,
+) -> httpx.Response:
+    """Create a mock OCS response for listing IntraVox pages."""
+    if pages is None:
+        pages = [
+            {"uniqueId": "page-1", "title": "Home", "language": "en", "status": "published"},
+            {"uniqueId": "page-2", "title": "About", "language": "en", "status": "draft"},
+        ]
+    return create_mock_intravox_ocs_response(data=pages)

@@ -14,6 +14,9 @@ from .sharing import configure_sharing_tools
 from .tables import configure_tables_tools
 from .webdav import configure_webdav_tools
 from .weekplanner import configure_weekplanner_tools
+from .agora import configure_agora_tools
+from .intravox import configure_intravox_tools
+from .analytics import configure_analytics_tools
 
 # Canonical mapping of app name → tool registration function.
 # Used by app.py (HTTP), stdio.py (stdio), and cli.py (--enable-app choices).
@@ -31,6 +34,9 @@ AVAILABLE_APPS: dict[str, Callable[[FastMCP], None]] = {
     "deck": configure_deck_tools,
     "news": configure_news_tools,
     "weekplanner": configure_weekplanner_tools,
+    "agora": configure_agora_tools,
+    "intravox": configure_intravox_tools,
+    "analytics": configure_analytics_tools,
 }
 
 __all__ = [
@@ -47,4 +53,7 @@ __all__ = [
     "configure_tables_tools",
     "configure_webdav_tools",
     "configure_weekplanner_tools",
+    "configure_agora_tools",
+    "configure_intravox_tools",
+    "configure_analytics_tools",
 ]
