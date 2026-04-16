@@ -38,7 +38,7 @@ async def test_agora_list_inquiries(mocker):
     assert result[0]["title"] == "Proposal A"
     assert result[1]["type"] == "debate"
 
-    mock_make_request.assert_called_once_with("GET", "/apps/agora/api/v1.0/agora")
+    mock_make_request.assert_called_once_with("GET", "/apps/agora/api/v1.0/inquiries")
 
 
 async def test_agora_get_inquiry(mocker):
@@ -144,6 +144,22 @@ async def test_agora_clone_inquiry(mocker):
     )
 
 
+async def test_agora_trash_inquiry(mocker):
+    """Test that trash_inquiry uses PUT to toggle archive state."""
+    mock_response = create_mock_agora_inquiry_response(inquiry_id=10)
+
+    mock_make_request = mocker.patch.object(
+        AgoraClient, "_make_request", return_value=mock_response
+    )
+
+    client = AgoraClient(mocker.AsyncMock(spec=httpx.AsyncClient), "testuser")
+    await client.trash_inquiry(10)
+
+    mock_make_request.assert_called_once_with(
+        "PUT", "/apps/agora/api/v1.0/inquiry/10/archive/toggle"
+    )
+
+
 async def test_agora_close_inquiry(mocker):
     """Test that close_inquiry uses PUT."""
     mock_response = create_mock_agora_inquiry_response(inquiry_id=10)
@@ -217,8 +233,8 @@ async def test_agora_create_comment(mocker):
 
     mock_make_request.assert_called_once_with(
         "POST",
-        "/apps/agora/api/v1.0/comment",
-        json={"inquiryId": 1, "message": "My comment"},
+        "/apps/agora/api/v1.0/inquiry/1/comment",
+        json={"message": "My comment"},
     )
 
 
@@ -296,9 +312,7 @@ async def test_agora_get_inquiry_types(mocker):
     assert len(result) == 2
     assert result[0]["value"] == "proposal"
 
-    mock_make_request.assert_called_once_with(
-        "GET", "/apps/agora/api/v1.0/enum/inquiry"
-    )
+    mock_make_request.assert_called_once_with("GET", "/apps/agora/api/v1.0/enum")
 
 
 # --- Error Handling ---

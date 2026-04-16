@@ -919,7 +919,17 @@ def create_mock_intravox_pages_list_response(
     """Create a mock OCS response for listing IntraVox pages."""
     if pages is None:
         pages = [
-            {"uniqueId": "page-1", "title": "Home", "language": "en", "status": "published"},
-            {"uniqueId": "page-2", "title": "About", "language": "en", "status": "draft"},
+            {
+                "uniqueId": "page-1",
+                "title": "Home",
+                "language": "en",
+                "status": "published",
+            },
+            {
+                "uniqueId": "page-2",
+                "title": "About",
+                "language": "en",
+                "status": "draft",
+            },
         ]
     return create_mock_intravox_ocs_response(data=pages)

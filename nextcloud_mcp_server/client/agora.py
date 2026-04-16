@@ -26,7 +26,7 @@ class AgoraClient(BaseNextcloudClient):
         Returns:
             List of inquiry dicts
         """
-        response = await self._make_request("GET", f"{self.API_BASE}/agora")
+        response = await self._make_request("GET", f"{self.API_BASE}/inquiries")
         return response.json()
 
     async def get_inquiry(self, inquiry_id: int) -> dict[str, Any]:
@@ -129,7 +129,7 @@ class AgoraClient(BaseNextcloudClient):
         return response.json()
 
     async def trash_inquiry(self, inquiry_id: int) -> dict[str, Any]:
-        """Move an inquiry to or remove from trash.
+        """Toggle archive state of an inquiry.
 
         Args:
             inquiry_id: Inquiry ID
@@ -138,7 +138,7 @@ class AgoraClient(BaseNextcloudClient):
             Updated inquiry dict
         """
         response = await self._make_request(
-            "POST", f"{self.API_BASE}/inquiry/{inquiry_id}/trash"
+            "PUT", f"{self.API_BASE}/inquiry/{inquiry_id}/archive/toggle"
         )
         return response.json()
 
@@ -178,7 +178,7 @@ class AgoraClient(BaseNextcloudClient):
         Returns:
             List of valid inquiry type definitions
         """
-        response = await self._make_request("GET", f"{self.API_BASE}/enum/inquiry")
+        response = await self._make_request("GET", f"{self.API_BASE}/enum")
         return response.json()
 
     # --- Comments ---
@@ -209,8 +209,8 @@ class AgoraClient(BaseNextcloudClient):
         """
         response = await self._make_request(
             "POST",
-            f"{self.API_BASE}/comment",
-            json={"inquiryId": inquiry_id, "message": message},
+            f"{self.API_BASE}/inquiry/{inquiry_id}/comment",
+            json={"message": message},
         )
         return response.json()
 

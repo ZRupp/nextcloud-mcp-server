@@ -2,11 +2,14 @@ from collections.abc import Callable
 
 from mcp.server.fastmcp import FastMCP
 
+from .agora import configure_agora_tools
+from .analytics import configure_analytics_tools
 from .calendar import configure_calendar_tools
 from .collectives import configure_collectives_tools
 from .contacts import configure_contacts_tools
 from .cookbook import configure_cookbook_tools
 from .deck import configure_deck_tools
+from .intravox import configure_intravox_tools
 from .news import configure_news_tools
 from .notes import configure_notes_tools
 from .semantic import configure_semantic_tools
@@ -14,9 +17,6 @@ from .sharing import configure_sharing_tools
 from .tables import configure_tables_tools
 from .webdav import configure_webdav_tools
 from .weekplanner import configure_weekplanner_tools
-from .agora import configure_agora_tools
-from .intravox import configure_intravox_tools
-from .analytics import configure_analytics_tools
 
 # Canonical mapping of app name → tool registration function.
 # Used by app.py (HTTP), stdio.py (stdio), and cli.py (--enable-app choices).

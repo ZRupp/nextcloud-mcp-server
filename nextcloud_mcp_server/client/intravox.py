@@ -24,9 +24,7 @@ class IntravoxClient(BaseNextcloudClient):
         "Accept": "application/json",
     }
 
-    async def _make_ocs_request(
-        self, method: str, url: str, **kwargs: Any
-    ) -> dict[str, Any]:
+    async def _make_ocs_request(self, method: str, url: str, **kwargs: Any) -> Any:
         """Make an OCS API request with proper headers and response unwrapping.
 
         Args:
@@ -49,6 +47,10 @@ class IntravoxClient(BaseNextcloudClient):
             method, f"{self.OCS_API_BASE}{url}", headers=headers, **kwargs
         )
         data = response.json()
+
+        # Some apps return raw data rather than OCS-wrapped responses
+        if isinstance(data, list) or not isinstance(data, dict) or "ocs" not in data:
+            return data
 
         ocs_status = data.get("ocs", {}).get("meta", {}).get("statuscode", 0)
         if ocs_status not in (100, 200):

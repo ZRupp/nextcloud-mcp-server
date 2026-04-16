@@ -279,7 +279,7 @@ def configure_agora_tools(mcp: FastMCP):
             )
 
     @mcp.tool(
-        title="Trash Agora Inquiry",
+        title="Archive Agora Inquiry",
         annotations=ToolAnnotations(openWorldHint=True),
     )
     @require_scopes("agora.write")
@@ -287,10 +287,10 @@ def configure_agora_tools(mcp: FastMCP):
     async def nc_agora_trash_inquiry(
         inquiry_id: int, ctx: Context
     ) -> UpdateInquiryResponse:
-        """Move an Agora inquiry to or remove from trash (toggles).
+        """Toggle archive state of an Agora inquiry (archive/unarchive).
 
         Args:
-            inquiry_id: Inquiry ID to trash/untrash
+            inquiry_id: Inquiry ID to archive/unarchive
         """
         client = await get_client(ctx)
         try:
@@ -299,13 +299,13 @@ def configure_agora_tools(mcp: FastMCP):
             return UpdateInquiryResponse(results=[inquiry])
         except RequestError as e:
             raise McpError(
-                ErrorData(code=-1, message=f"Network error trashing inquiry: {e!s}")
+                ErrorData(code=-1, message=f"Network error archiving inquiry: {e!s}")
             )
         except HTTPStatusError as e:
             raise McpError(
                 ErrorData(
                     code=-1,
-                    message=f"Failed to trash inquiry: {e.response.status_code}",
+                    message=f"Failed to archive inquiry: {e.response.status_code}",
                 )
             )
 

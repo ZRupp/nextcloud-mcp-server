@@ -13,12 +13,15 @@ from httpx import (
 
 from ..controllers.notes_search import NotesSearchController
 from ..http import nextcloud_httpx_transport
+from .agora import AgoraClient
+from .analytics import AnalyticsClient
 from .calendar import CalendarClient
 from .collectives import CollectivesClient
 from .contacts import ContactsClient
 from .cookbook import CookbookClient
 from .deck import DeckClient
 from .groups import GroupsClient
+from .intravox import IntravoxClient
 from .news import NewsClient
 from .notes import NotesClient
 from .sharing import SharingClient
@@ -27,9 +30,6 @@ from .users import UsersClient
 from .webdav import WebDAVClient
 from .webhooks import WebhooksClient
 from .weekplanner import WeekPlannerClient
-from .agora import AgoraClient
-from .intravox import IntravoxClient
-from .analytics import AnalyticsClient
 
 logger = logging.getLogger(__name__)
 
